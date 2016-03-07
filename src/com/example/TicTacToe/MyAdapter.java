@@ -1,0 +1,87 @@
+package com.example.TicTacToe;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import com.example.TicTacToe.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by David on 3/7/2016.
+ */
+public class MyAdapter extends BaseAdapter {
+    private Context context;
+    List<Integer> ImageIds;
+    public MyAdapter(Context context)
+    {
+        this.context = context;
+        ImageIds = new ArrayList<>();
+        for(int i = 0; i < 9; i++)
+        {
+            // add 9 blank squares to ImageIds... 9 squares on a TicTacToe board..
+            ImageIds.add(R.drawable.blank);
+        }
+    }
+    public int getCount() {
+        return ImageIds.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return ImageIds.get(position);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup gridView) {
+        View layout = convertView;
+        ViewHolder imageHolder;
+        if(convertView == null)
+        {
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            layout = inflater.inflate(R.layout.single_image, gridView, false);
+            imageHolder = new ViewHolder(layout);
+            layout.setTag(imageHolder);
+        }
+        else
+        {
+            imageHolder = (ViewHolder)layout.getTag();
+        }
+
+        imageHolder.TicTacToeImage.setImageResource(ImageIds.get(position));
+        imageHolder.TicTacToeImage.setTag(ImageIds.get(position));
+        return layout;
+    }
+
+}
+
+
+class ViewHolder
+{
+    ImageView TicTacToeImage;
+    int xView = R.drawable.x;
+    int circleView = R.drawable.circle;
+    ViewHolder(View v)
+    {
+        TicTacToeImage = (ImageView)v.findViewById(R.id.TicTacToeImage); // this is defined in teh single_image.xml file.
+
+    }
+
+    public void setImage(ImageView image){TicTacToeImage = image;}
+    public void changeImage(int counter)
+    {
+        if(counter % 2 == 0)
+            TicTacToeImage.setImageResource(xView);
+        else
+            TicTacToeImage.setImageResource(circleView);
+    }
+}
