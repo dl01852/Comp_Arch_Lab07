@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class MyActivity extends Activity implements AdapterView.OnItemClickListener {
     /**
@@ -12,6 +13,7 @@ public class MyActivity extends Activity implements AdapterView.OnItemClickListe
      * Written by David Lewis on 3/7/2016
      */
 
+    char[] cellPV = new char[9];
     int counter = 0;
     GridView ticTacoeBoard;
     MyAdapter imageAdapter;
@@ -28,8 +30,29 @@ public class MyActivity extends Activity implements AdapterView.OnItemClickListe
     public void onItemClick(AdapterView<?> adapterView, View view,int position, long l)
     {
        ViewHolder image = (ViewHolder)view.getTag();
-        image.changeImage(counter);
-        counter++;
+        if(image.hasBeenTaken())
+            Toast.makeText(MyActivity.this, "That spot has been taken already", Toast.LENGTH_SHORT).show();
+        else
+        {
+            image.changeImage(counter);
+            cellPV[position] = counter % 2 == 0 ? 'x' : 'o'; // cellPV = Cell position Value. this will be used to check if there is winner or not.
+            counter++;
+        }
+
+    }
+    public Boolean isWinner()
+    {
+        // Damn i wish there was a better way then brute forcing this...
+        if(cellPV[0] == 'x' && cellPV[1] == 'x' && cellPV[2] == 'x') // straight across
+        {
+            return true;
+        }
+        else if(cellPV[0] == 'x' && cellPV[3] == 'x' && cellPV[6] == 'x')
+            return true;
+        else if(cellPV[0] == 'x' && cellPV[4] == 'x' && cellPV[8] == 'x')
+            return true;
+
+        return false;
     }
 
 }

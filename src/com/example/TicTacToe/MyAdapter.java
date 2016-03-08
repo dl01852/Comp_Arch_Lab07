@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import com.example.TicTacToe.R;
 
@@ -47,10 +48,10 @@ public class MyAdapter extends BaseAdapter {
         ViewHolder imageHolder;
         if(convertView == null)
         {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            layout = inflater.inflate(R.layout.single_image, gridView, false);
-            imageHolder = new ViewHolder(layout);
-            layout.setTag(imageHolder);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // creates a new Layout for each cell.
+            layout = inflater.inflate(R.layout.single_image, gridView, false); // this is the layout to create AKA inflate.
+            imageHolder = new ViewHolder(layout); // give it to the imageHolder so we can recyle it as well as change the source outside of this getViewMethod.
+            layout.setTag(imageHolder); // this is how i can access the image outside of the getView, since i'm going to return this layout. i call the getTag to get the image object.
         }
         else
         {
@@ -70,6 +71,7 @@ class ViewHolder
     ImageView TicTacToeImage;
     int xView = R.drawable.x;
     int circleView = R.drawable.circle;
+    boolean taken = false;
     ViewHolder(View v)
     {
         TicTacToeImage = (ImageView)v.findViewById(R.id.TicTacToeImage); // this is defined in teh single_image.xml file.
@@ -83,5 +85,12 @@ class ViewHolder
             TicTacToeImage.setImageResource(xView);
         else
             TicTacToeImage.setImageResource(circleView);
+
+    taken = true;
     }
+    public boolean hasBeenTaken() // quick check to see if the cell has been taken.
+    {
+        return taken;
+    }
+
 }
