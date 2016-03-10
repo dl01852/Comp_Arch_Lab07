@@ -18,6 +18,7 @@ import java.util.List;
 public class MyAdapter extends BaseAdapter {
     private Context context;
     List<Integer> ImageIds;
+    View layout;
     public MyAdapter(Context context)
     {
         this.context = context;
@@ -42,9 +43,11 @@ public class MyAdapter extends BaseAdapter {
         return 0;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup gridView) {
-        View layout = convertView;
+       layout  = convertView;
         ViewHolder imageHolder;
         if(convertView == null)
         {
@@ -71,6 +74,7 @@ class ViewHolder
     ImageView TicTacToeImage;
     int xView = R.drawable.x;
     int circleView = R.drawable.circle;
+    int blank = R.drawable.blank;
     boolean taken = false;
     ViewHolder(View v)
     {
